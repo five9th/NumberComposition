@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.five9th.numbercomposition"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.five9th.numbercomposition"
