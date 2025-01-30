@@ -25,28 +25,24 @@ object GameRepositoryImpl : GameRepository {
 
         val rightAnswer = sum - firstVal
 
-        val options = hashSetOf(rightAnswer)
-
         val minOption = max(rightAnswer - countOfOptions, MIN_OPTION_VALUE)
         val maxOption = min(rightAnswer + countOfOptions, maxSum)
 
-        val possibleOptionsCount = maxOption - minOption + 1
+        val possibleOptions = minOption..maxOption
 
-        println("maxSum = $maxSum; countOfOptions = $countOfOptions\nsum = $sum\nfirst = $firstVal\nrightAnswer = $rightAnswer\nminOption = $minOption\nmaxOption = $maxOption\npossibleOptionsCount = $possibleOptionsCount")
+//        println("maxSum = $maxSum; countOfOptions = $countOfOptions\nsum = $sum\nfirst = $firstVal\nrightAnswer = $rightAnswer\nminOption = $minOption\nmaxOption = $maxOption\noptionsCount = ${possibleOptions.count()}")
 
-        if (possibleOptionsCount < countOfOptions) {
+        if (possibleOptions.count() < countOfOptions) {
             throw Exception("Unavailable to fill options list the size of $countOfOptions" +
                     " with unique values between $minOption and $maxOption")
         }
 
-        while (options.size < countOfOptions) {
-            options.add(Random.nextInt(minOption, maxOption + 1))
-        }
+        val options = (possibleOptions - rightAnswer).shuffled().take(countOfOptions) + rightAnswer
 
         return Question(
             sum,
             firstVal,
-            options.toList()
+            options
         )
     }
 
