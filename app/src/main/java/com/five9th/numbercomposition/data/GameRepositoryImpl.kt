@@ -14,6 +14,12 @@ object GameRepositoryImpl : GameRepository {
     private const val MIN_OPTION_VALUE = 1
 
     override fun generateQuestion(maxSum: Int, countOfOptions: Int): Question {
+        if (maxSum < countOfOptions) {
+            throw IllegalArgumentException(
+                "maxSum ($maxSum) can't be less than countOfOptions ($countOfOptions)"
+            )
+        }
+
         val sum = Random.nextInt(MIN_SUM_VALUE, maxSum + 1)
         val firstVal = Random.nextInt(MIN_OPTION_VALUE, sum - MIN_OPTION_VALUE + 1)
 
@@ -22,9 +28,18 @@ object GameRepositoryImpl : GameRepository {
         val options = hashSetOf(rightAnswer)
 
         val minOption = max(rightAnswer - countOfOptions, MIN_OPTION_VALUE)
-        val maxOption = min(rightAnswer + countOfOptions, sum - MIN_OPTION_VALUE)
+        val maxOption = min(rightAnswer + countOfOptions, maxSum)
 
-        while (options.size < countOfOptions) { //todo: add checking
+        val possibleOptionsCount = maxOption - minOption + 1
+
+        println("maxSum = $maxSum; countOfOptions = $countOfOptions\nsum = $sum\nfirst = $firstVal\nrightAnswer = $rightAnswer\nminOption = $minOption\nmaxOption = $maxOption\npossibleOptionsCount = $possibleOptionsCount")
+
+        if (possibleOptionsCount < countOfOptions) {
+            throw Exception("Unavailable to fill options list the size of $countOfOptions" +
+                    " with unique values between $minOption and $maxOption")
+        }
+
+        while (options.size < countOfOptions) {
             options.add(Random.nextInt(minOption, maxOption + 1))
         }
 
