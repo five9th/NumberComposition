@@ -1,6 +1,7 @@
 package com.five9th.numbercomposition.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,8 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 
 abstract class BaseFragmentV2<VB : ViewBinding>(
-    private val inflate: (LayoutInflater, ViewGroup?, Boolean) -> VB
+    // Passing a parameter via constructor here is pretty safe because only the successors of this
+    // class will be used and they will have an empty constructor which will be called to recreate
+    // the fragment and in which the BaseFragmentV2's constructor will be called with hardcoded
+    // [inflate] parameter
+    private val inflate: (LayoutInflater, ViewGroup?, Boolean) -> VB,
 ) : Fragment() {
+
+    init {
+        log("init, inflate: $inflate")
+    }
 
     private var _binding: VB? = null
     protected val binding: VB
@@ -22,12 +31,18 @@ abstract class BaseFragmentV2<VB : ViewBinding>(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        log("onCreateView, savedInstanceState: $savedInstanceState")
         _binding = inflate(inflater, container, false)
-        return super.onCreateView(inflater, container, savedInstanceState)
+        return binding.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        log("onDestroyView")
         _binding = null
+    }
+
+    private fun log(msg: String) {
+        Log.d("BaseFragmentV2", msg)
     }
 }
