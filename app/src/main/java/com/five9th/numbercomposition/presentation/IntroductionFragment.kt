@@ -4,22 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.five9th.numbercomposition.databinding.FragmentIntroductionBinding
 
-class IntroductionFragment : Fragment() {
+class IntroductionFragment : BaseFragment<FragmentIntroductionBinding>() {
 
-    private var _binding: FragmentIntroductionBinding? = null
-    private val binding: FragmentIntroductionBinding
-        get() = _binding ?: throw RuntimeException("FragmentIntroductionBinding is null")
-
-    override fun onCreateView(
+    override fun inflateBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentIntroductionBinding.inflate(inflater, container, false)
-        return binding.root
+        container: ViewGroup?
+    ): FragmentIntroductionBinding {
+        return FragmentIntroductionBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -28,10 +21,5 @@ class IntroductionFragment : Fragment() {
         binding.startBtn.setOnClickListener {
             //todo
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
