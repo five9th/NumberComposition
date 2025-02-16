@@ -4,7 +4,10 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import com.five9th.numbercomposition.R
 import com.five9th.numbercomposition.databinding.FragmentInGameBinding
+import com.five9th.numbercomposition.domain.entities.GameResult
+import com.five9th.numbercomposition.domain.entities.GameSettings
 import com.five9th.numbercomposition.domain.entities.Level
 
 class InGameFragment : BaseFragment<FragmentInGameBinding>(
@@ -24,6 +27,25 @@ class InGameFragment : BaseFragment<FragmentInGameBinding>(
         } else {
             requireArguments().getSerializable(KEY_LEVEL) as? Level
         } ?: throw RuntimeException("Level is null")
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.tvSum.setOnClickListener { //// temporary for testing
+            launchGameResultFragment(
+                GameResult(true, 100, 80,
+                    GameSettings(10, 20, 3, 4)
+                )
+            )
+        }
+    }
+
+    private fun launchGameResultFragment(gameResult: GameResult) {
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.main_fragment_container, GameResultFragment.newInstance(gameResult))
+//            .addToBackStack(null)
+            .commit()
     }
 
     companion object {
