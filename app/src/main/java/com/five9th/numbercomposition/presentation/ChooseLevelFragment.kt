@@ -7,5 +7,9 @@ import com.five9th.numbercomposition.databinding.FragmentChooseLevelBinding
 class ChooseLevelFragment : BaseFragment<FragmentChooseLevelBinding>(
     FragmentChooseLevelBinding::inflate
 ) {
-
+    companion object {
+        fun newInstance(): ChooseLevelFragment {
+            return ChooseLevelFragment()
+        }
+    }
 }

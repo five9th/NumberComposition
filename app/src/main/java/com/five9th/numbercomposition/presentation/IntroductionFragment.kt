@@ -14,7 +14,11 @@ class IntroductionFragment : BaseFragment<FragmentIntroductionBinding>(
         binding.startBtn.setOnClickListener {
             //todo
         }
+    }
 
-        binding.startBtn.text = "hello from binding"
+    companion object {
+        fun newInstance(): IntroductionFragment {
+            return IntroductionFragment()
+        }
     }
 }
