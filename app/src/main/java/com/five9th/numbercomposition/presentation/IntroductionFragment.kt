@@ -2,6 +2,7 @@ package com.five9th.numbercomposition.presentation
 
 import android.os.Bundle
 import android.view.View
+import com.five9th.numbercomposition.R
 import com.five9th.numbercomposition.databinding.FragmentIntroductionBinding
 
 class IntroductionFragment : BaseFragment<FragmentIntroductionBinding>(
@@ -12,8 +13,15 @@ class IntroductionFragment : BaseFragment<FragmentIntroductionBinding>(
         super.onViewCreated(view, savedInstanceState)
 
         binding.startBtn.setOnClickListener {
-            //todo
+            launchChooseLevelFragment()
         }
+    }
+
+    private fun launchChooseLevelFragment() {
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.main_fragment_container, ChooseLevelFragment.newInstance())
+            .addToBackStack(null)
+            .commit()
     }
 
     companion object {
