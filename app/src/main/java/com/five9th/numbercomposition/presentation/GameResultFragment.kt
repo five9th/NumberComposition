@@ -3,6 +3,9 @@ package com.five9th.numbercomposition.presentation
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.FragmentManager
 import com.five9th.numbercomposition.databinding.FragmentGameResultBinding
 import com.five9th.numbercomposition.domain.entities.GameResult
 
@@ -24,6 +27,35 @@ class GameResultFragment : BaseFragment<FragmentGameResultBinding>(
         } else {
             requireArguments().getSerializable(KEY_GAME_RESULT) as? GameResult
         } ?: throw RuntimeException("GameResult is null")
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setListeners()
+        setBackPressedCallback()
+    }
+
+    private fun setListeners() {
+        binding.retryBtn.setOnClickListener {
+            retryGame()
+        }
+    }
+
+    private fun setBackPressedCallback() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                retryGame()
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
+    private fun retryGame() {
+        requireActivity().supportFragmentManager.popBackStack(
+            InGameFragment.NAME,
+            FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
     companion object {

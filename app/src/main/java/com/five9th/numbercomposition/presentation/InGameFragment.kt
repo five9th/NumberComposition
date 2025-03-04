@@ -44,11 +44,13 @@ class InGameFragment : BaseFragment<FragmentInGameBinding>(
     private fun launchGameResultFragment(gameResult: GameResult) {
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.main_fragment_container, GameResultFragment.newInstance(gameResult))
-//            .addToBackStack(null)
+            .addToBackStack(null)
             .commit()
     }
 
     companion object {
+        const val NAME = "InGameFragment"
+
         private const val KEY_LEVEL = "level"
 
         fun newInstance(level: Level): InGameFragment {

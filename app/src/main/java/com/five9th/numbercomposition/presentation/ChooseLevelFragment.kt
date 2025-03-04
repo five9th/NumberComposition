@@ -32,7 +32,7 @@ class ChooseLevelFragment : BaseFragment<FragmentChooseLevelBinding>(
     private fun launchInGameFragment(level: Level) {
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.main_fragment_container, InGameFragment.newInstance(level))
-            .addToBackStack(null)
+            .addToBackStack(InGameFragment.NAME)
             .commit()
     }
 
