@@ -23,9 +23,9 @@ class GameResultFragment : BaseFragment<FragmentGameResultBinding>(
 
     private fun parseArgs() {
         gameResult = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.TIRAMISU) {
-            requireArguments().getSerializable(KEY_GAME_RESULT, GameResult::class.java)
+            requireArguments().getParcelable(KEY_GAME_RESULT, GameResult::class.java)
         } else {
-            requireArguments().getSerializable(KEY_GAME_RESULT) as? GameResult
+            requireArguments().getParcelable(KEY_GAME_RESULT) as? GameResult
         } ?: throw RuntimeException("GameResult is null")
     }
 
@@ -66,7 +66,7 @@ class GameResultFragment : BaseFragment<FragmentGameResultBinding>(
         fun newInstance(gameResult: GameResult) =
             GameResultFragment().apply {
                 arguments = Bundle().apply {
-                    putSerializable(KEY_GAME_RESULT, gameResult)
+                    putParcelable(KEY_GAME_RESULT, gameResult)
                 }
             }
     }

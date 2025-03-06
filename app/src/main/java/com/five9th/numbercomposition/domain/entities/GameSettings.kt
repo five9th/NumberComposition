@@ -1,10 +1,12 @@
 package com.five9th.numbercomposition.domain.entities
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class GameSettings(
     val gameTimeInSeconds: Int,
     val maxSumValue: Int,
     val minRightAnswersCount: Int,
     val minRightPercentCount: Int
-): Serializable
+): Parcelable
