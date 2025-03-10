@@ -177,6 +177,7 @@
         android:layout_height="wrap_content"
         android:max="100"
         tools:progress="25"
+        tools:secondaryProgress="80"
         android:secondaryProgressTint="@android:color/background_dark"
 
         app:layout_constraintBottom_toTopOf="@+id/tv_option_2"
