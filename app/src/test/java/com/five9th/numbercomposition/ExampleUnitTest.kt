@@ -20,7 +20,7 @@ class ExampleUnitTest {
 
 class QuestionGenerationTest {
     @Test
-    fun generate1() {
+    fun generateAndPrint1() {
         println("\n=============================")
         for (i in 1..100) {
             val quest = GameRepositoryImpl.generateQuestion(6, 6)
@@ -32,7 +32,7 @@ class QuestionGenerationTest {
     }
 
     @Test
-    fun generate2() {
+    fun generateAndPrint2() {
         println("\n=============================")
         for (i in 1..100) {
             val quest = GameRepositoryImpl.generateQuestion(20, 3)

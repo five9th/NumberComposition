@@ -31,13 +31,14 @@ object GameRepositoryImpl : GameRepository {
         val possibleOptions = minOption..maxOption
 
 //        println("maxSum = $maxSum; countOfOptions = $countOfOptions\nsum = $sum\nfirst = $firstVal\nrightAnswer = $rightAnswer\nminOption = $minOption\nmaxOption = $maxOption\noptionsCount = ${possibleOptions.count()}")
+//        println(possibleOptions.toString())
 
         if (possibleOptions.count() < countOfOptions) {
-            throw Exception("Unavailable to fill options list the size of $countOfOptions" +
+            throw Exception("Impossible to fill options list the size of $countOfOptions" +
                     " with unique values between $minOption and $maxOption")
         }
 
-        val options = (possibleOptions - rightAnswer).shuffled().take(countOfOptions) + rightAnswer
+        val options = (possibleOptions - rightAnswer).shuffled().take(countOfOptions - 1) + rightAnswer
 
         return Question(
             sum,
