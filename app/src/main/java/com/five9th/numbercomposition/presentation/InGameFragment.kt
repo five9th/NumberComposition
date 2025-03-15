@@ -1,11 +1,11 @@
 package com.five9th.numbercomposition.presentation
 
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.five9th.numbercomposition.R
 import com.five9th.numbercomposition.databinding.FragmentInGameBinding
@@ -90,18 +90,26 @@ class InGameFragment : BaseFragment<FragmentInGameBinding>(
         }
 
         viewModel.isPercentEnoughLD.observe(viewLifecycleOwner) { value ->
-            val color = if (value) Color.GREEN else Color.RED
+            val color = getColor(value)
             binding.progressBar.progressDrawable.setTint(color)
         }
 
         viewModel.isCountEnoughLD.observe(viewLifecycleOwner) { value ->
-            val color = if (value) Color.GREEN else Color.RED
+            val color = getColor(value)
             binding.tvAnswersProgress.setTextColor(color)
         }
 
         viewModel.questionLD.observe(viewLifecycleOwner, ::parseQuestion)
 
         viewModel.gameResultLD.observe(viewLifecycleOwner, ::launchGameResultFragment)
+    }
+
+    private fun getColor(isSuccess: Boolean): Int {
+        return if (isSuccess) {
+            ContextCompat.getColor(requireContext(), R.color.green)
+        } else {
+            ContextCompat.getColor(requireContext(), R.color.red)
+        }
     }
 
     private fun parseQuestion(question: Question) {
