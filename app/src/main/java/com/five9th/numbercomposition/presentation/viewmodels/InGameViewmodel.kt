@@ -95,7 +95,7 @@ class InGameViewmodel(application: Application) : AndroidViewModel(application) 
     }
 
     private fun updateValues() {
-        val rightAnswersPercent = (answersTotal * 100.0 / answersRight).toInt()
+        val rightAnswersPercent = (answersRight * 100.0 / answersTotal).toInt()
         val requiredPercent = gameSettings.minRightPercent
         val minRightAnswersCount = gameSettings.minRightAnswersCount
 

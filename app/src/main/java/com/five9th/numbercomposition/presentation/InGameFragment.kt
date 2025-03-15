@@ -18,6 +18,8 @@ import java.util.Locale
 class InGameFragment : BaseFragment<FragmentInGameBinding>(
     FragmentInGameBinding::inflate
 ) {
+    private val tag = "InGameFragment"
+
     private lateinit var level: Level
 
     private val viewModel by lazy {
@@ -39,7 +41,6 @@ class InGameFragment : BaseFragment<FragmentInGameBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         parseArgs()
-        Log.d("InGameFragment", "onCreate, level: $level")
     }
 
     private fun parseArgs() {
@@ -104,7 +105,6 @@ class InGameFragment : BaseFragment<FragmentInGameBinding>(
     }
 
     private fun parseQuestion(question: Question) {
-        Log.d("InGameFragment", "New question: $question")
         binding.tvSum.text = intToText(question.sum)
 
         binding.tvLeftNumber.text = intToText(question.firstValue)
