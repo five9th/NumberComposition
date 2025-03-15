@@ -13,6 +13,7 @@ import com.five9th.numbercomposition.domain.entities.Level
 import com.five9th.numbercomposition.domain.entities.Question
 import com.five9th.numbercomposition.domain.usecases.GenerateQuestionUseCase
 import com.five9th.numbercomposition.domain.usecases.GetGameSettingsUseCase
+import java.util.Locale
 
 class InGameViewmodel(application: Application) : AndroidViewModel(application) {
 
@@ -69,6 +70,7 @@ class InGameViewmodel(application: Application) : AndroidViewModel(application) 
     val gameTimerLD: LiveData<String>
         get() = _gameTimerLD
 
+    /** This object getting a value means that the game is over */
     private val _gameResultLD = MutableLiveData<GameResult>()
     val gameResultLD: LiveData<GameResult>
         get() = _gameResultLD
@@ -138,7 +140,7 @@ class InGameViewmodel(application: Application) : AndroidViewModel(application) 
         val minutesLeft = secondsTotal / SECONDS_IN_MINUTE
         val secondsLeft = secondsTotal - (minutesLeft * SECONDS_IN_MINUTE)
 
-        return String.format("%02d:%02d", minutesLeft, secondsLeft)
+        return String.format(Locale.getDefault(), "%02d:%02d", minutesLeft, secondsLeft)
     }
 
     override fun onCleared() {
