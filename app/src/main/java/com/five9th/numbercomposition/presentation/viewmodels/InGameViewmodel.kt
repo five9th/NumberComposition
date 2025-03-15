@@ -114,7 +114,13 @@ class InGameViewmodel(application: Application) : AndroidViewModel(application) 
 
     private fun setNewQuestion() {
         val question = generateQuestionUseCase(gameSettings.maxSumValue)
-        _questionLD.value = question
+
+        // Sort the options list so the options will be displayed in ascending order
+        _questionLD.value = question.copy(
+            sum = question.sum,
+            firstValue = question.firstValue,
+            secondValueOptions = question.secondValueOptions.sorted()
+        )
     }
 
     private fun startTimer() {

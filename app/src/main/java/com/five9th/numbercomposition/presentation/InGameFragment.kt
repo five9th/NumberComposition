@@ -2,7 +2,6 @@ package com.five9th.numbercomposition.presentation
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -31,10 +30,6 @@ class InGameFragment : BaseFragment<FragmentInGameBinding>(
         )[InGameViewmodel::class.java]
     }
 
-    // Examples:
-    //   optionIndex = optionIndices[btnIndex]
-    //   optionButtons[i].text = options[optionIndices[i]]
-    private var optionIndices = IntArray(OPTIONS_COUNT) { it }
     private lateinit var optionButtons: Array<TextView>
 
 
@@ -125,10 +120,8 @@ class InGameFragment : BaseFragment<FragmentInGameBinding>(
     }
 
     private fun setOptionButtons(options: List<Int>) {
-        optionIndices.shuffle()
-
         for (i in optionButtons.indices) {
-            optionButtons[i].text = intToText(options[optionIndices[i]])
+            optionButtons[i].text = intToText(options[i])
         }
     }
 
@@ -144,10 +137,9 @@ class InGameFragment : BaseFragment<FragmentInGameBinding>(
     }
 
     private fun optionClicked(btnIndex: Int) {
-        val optionIndex = optionIndices[btnIndex]
         val question = viewModel.questionLD.value ?: return
 
-        viewModel.giveAnswer(question, optionIndex)
+        viewModel.giveAnswer(question, btnIndex)
     }
 
     private fun launchGameResultFragment(gameResult: GameResult) {
