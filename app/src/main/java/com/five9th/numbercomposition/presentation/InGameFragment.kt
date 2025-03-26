@@ -77,16 +77,16 @@ class InGameFragment : BaseFragment<FragmentInGameBinding>(
         }
 
         viewModel.requiredPercentLD.observe(viewLifecycleOwner) { percent ->
-            binding.progressBar.secondaryProgress = percent
+            binding.pbRightPercent.secondaryProgress = percent
         }
 
         viewModel.rightAnswersPercentLD.observe(viewLifecycleOwner) { percent ->
-            binding.progressBar.progress = percent
+            binding.pbRightPercent.setProgress(percent, true)
         }
 
         viewModel.isPercentEnoughLD.observe(viewLifecycleOwner) { value ->
             val color = getColor(value)
-            binding.progressBar.progressDrawable.setTint(color)
+            binding.pbRightPercent.progressDrawable.setTint(color)
         }
 
         viewModel.isCountEnoughLD.observe(viewLifecycleOwner) { value ->
