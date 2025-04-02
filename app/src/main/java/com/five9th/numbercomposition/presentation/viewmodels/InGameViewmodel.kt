@@ -73,7 +73,12 @@ class InGameViewmodel(
         get() = _gameResultLD
 
 
-    fun startGame() {
+    init {
+        startGame()
+    }
+
+
+    private fun startGame() {
         getGameSettings()
 
         updateAndSetNewQuestion()

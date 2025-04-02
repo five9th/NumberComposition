@@ -12,6 +12,7 @@ import com.five9th.numbercomposition.domain.entities.GameResult
 import com.five9th.numbercomposition.domain.entities.Level
 import com.five9th.numbercomposition.domain.entities.Question
 import com.five9th.numbercomposition.presentation.viewmodels.InGameViewmodel
+import com.five9th.numbercomposition.presentation.viewmodels.InGameViewmodelFactory
 import java.util.Locale
 
 class InGameFragment : BaseFragment<FragmentInGameBinding>(
@@ -21,13 +22,12 @@ class InGameFragment : BaseFragment<FragmentInGameBinding>(
 
     private lateinit var level: Level
 
+    private val viewModelFactory by lazy {
+        InGameViewmodelFactory(requireActivity().application, level)
+    }
+
     private val viewModel by lazy {
-        ViewModelProvider(
-            this,
-            ViewModelProvider.AndroidViewModelFactory.getInstance(
-                requireActivity().application
-            )
-        )[InGameViewmodel::class.java]
+        ViewModelProvider(this, viewModelFactory)[InGameViewmodel::class.java]
     }
 
     private lateinit var optionButtons: Array<TextView>
@@ -52,8 +52,6 @@ class InGameFragment : BaseFragment<FragmentInGameBinding>(
         initOptionButtonsArr()
         subscribeToLDs()
         setListeners()
-
-        viewModel.startGame(level)
     }
 
     private fun initOptionButtonsArr() {
