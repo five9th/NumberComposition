@@ -33,10 +33,17 @@
             app:destination="@id/gameResultFragment"
             app:popUpTo="@id/inGameFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="level"
+            app:argType="com.five9th.numbercomposition.domain.entities.Level" />
     </fragment>
     <fragment
         android:id="@+id/gameResultFragment"
         android:name="com.five9th.numbercomposition.presentation.GameResultFragment"
         android:label="fragment_game_result"
-        tools:layout="@layout/fragment_game_result" />
+        tools:layout="@layout/fragment_game_result" >
+        <argument
+            android:name="gameResult"
+            app:argType="com.five9th.numbercomposition.domain.entities.GameResult" />
+    </fragment>
 </navigation>

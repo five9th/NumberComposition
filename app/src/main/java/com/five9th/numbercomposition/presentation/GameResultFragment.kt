@@ -8,6 +8,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.five9th.numbercomposition.R
 import com.five9th.numbercomposition.databinding.FragmentGameResultBinding
 import com.five9th.numbercomposition.domain.entities.GameResult
@@ -16,21 +17,7 @@ import com.five9th.numbercomposition.domain.entities.GameResult
 class GameResultFragment : BaseFragment<FragmentGameResultBinding>(
     FragmentGameResultBinding::inflate
 ) {
-    private lateinit var gameResult: GameResult
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        parseArgs()
-        Log.d("GameResultFragment", "onCreate, gameResult: $gameResult")
-    }
-
-    private fun parseArgs() {
-        gameResult = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.TIRAMISU) {
-            requireArguments().getParcelable(KEY_GAME_RESULT, GameResult::class.java)
-        } else {
-            requireArguments().getParcelable(KEY_GAME_RESULT) as? GameResult
-        } ?: throw RuntimeException("GameResult is null")
-    }
+    private val args by navArgs<GameResultFragmentArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,17 +33,17 @@ class GameResultFragment : BaseFragment<FragmentGameResultBinding>(
     }
 
     private fun setImage() {
-        val imgId = if (gameResult.isWinner) R.drawable.happy_emoji else R.drawable.sad_emoji
+        val imgId = if (args.gameResult.isWinner) R.drawable.happy_emoji else R.drawable.sad_emoji
         binding.emojiResult.setImageResource(imgId)
     }
 
     private fun setText() {
-        val requiredCount = gameResult.gameSettings.minRightAnswersCount
-        val rightCount = gameResult.rightAnswers
+        val requiredCount = args.gameResult.gameSettings.minRightAnswersCount
+        val rightCount = args.gameResult.rightAnswers
         val rightCountColor = getColor(rightCount >= requiredCount)
 
-        val requiredPercent = gameResult.gameSettings.minRightPercent
-        val rightPercent = gameResult.rightAnswerPercent
+        val requiredPercent = args.gameResult.gameSettings.minRightPercent
+        val rightPercent = args.gameResult.rightAnswerPercent
         val rightPercentColor = getColor(rightPercent >= requiredPercent)
 
         binding.tvScoreAnswers.also {

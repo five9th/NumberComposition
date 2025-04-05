@@ -6,7 +6,9 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavArgs
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.five9th.numbercomposition.R
 import com.five9th.numbercomposition.databinding.FragmentInGameBinding
 import com.five9th.numbercomposition.domain.entities.GameResult
@@ -19,12 +21,10 @@ import java.util.Locale
 class InGameFragment : BaseFragment<FragmentInGameBinding>(
     FragmentInGameBinding::inflate
 ) {
-    private val tag = "InGameFragment"
-
-    private lateinit var level: Level
+    private val args by navArgs<InGameFragmentArgs>()
 
     private val viewModelFactory by lazy {
-        InGameViewmodelFactory(requireActivity().application, level)
+        InGameViewmodelFactory(requireActivity().application, args.level)
     }
 
     private val viewModel by lazy {
@@ -33,19 +33,6 @@ class InGameFragment : BaseFragment<FragmentInGameBinding>(
 
     private lateinit var optionButtons: Array<TextView>
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        parseArgs()
-    }
-
-    private fun parseArgs() {
-        level = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.TIRAMISU) {
-            requireArguments().getParcelable(KEY_LEVEL, Level::class.java)
-        } else {
-            requireArguments().getParcelable(KEY_LEVEL) as Level?
-        } ?: throw RuntimeException("Level is null")
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -142,8 +129,9 @@ class InGameFragment : BaseFragment<FragmentInGameBinding>(
     }
 
     private fun launchGameResultFragment(gameResult: GameResult) {
-        val bundle = GameResultFragment.bundleForNewInstance(gameResult)
-        findNavController().navigate(R.id.action_inGameFragment_to_gameResultFragment, bundle)
+        findNavController().navigate(
+            InGameFragmentDirections.actionInGameFragmentToGameResultFragment(gameResult)
+        )
     }
 
     companion object {

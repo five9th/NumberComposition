@@ -3,7 +3,6 @@ package com.five9th.numbercomposition.presentation
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
-import com.five9th.numbercomposition.R
 import com.five9th.numbercomposition.databinding.FragmentChooseLevelBinding
 import com.five9th.numbercomposition.domain.entities.Level
 
@@ -31,8 +30,9 @@ class ChooseLevelFragment : BaseFragment<FragmentChooseLevelBinding>(
     }
 
     private fun launchInGameFragment(level: Level) {
-        val bundle = InGameFragment.bundleForNewInstance(level)
-        findNavController().navigate(R.id.action_chooseLevelFragment_to_inGameFragment, bundle)
+        findNavController().navigate(
+            ChooseLevelFragmentDirections.actionChooseLevelFragmentToInGameFragment(level)
+        )
     }
 
     companion object {
