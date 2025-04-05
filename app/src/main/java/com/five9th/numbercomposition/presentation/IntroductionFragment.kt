@@ -21,10 +21,4 @@ class IntroductionFragment : BaseFragment<FragmentIntroductionBinding>(
     private fun launchChooseLevelFragment() {
         findNavController().navigate(R.id.action_introductionFragment_to_chooseLevelFragment)
     }
-
-    companion object {
-        fun newInstance(): IntroductionFragment {
-            return IntroductionFragment()
-        }
-    }
 }

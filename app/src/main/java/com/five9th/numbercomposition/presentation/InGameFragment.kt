@@ -1,18 +1,15 @@
 package com.five9th.numbercomposition.presentation
 
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavArgs
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.five9th.numbercomposition.R
 import com.five9th.numbercomposition.databinding.FragmentInGameBinding
 import com.five9th.numbercomposition.domain.entities.GameResult
-import com.five9th.numbercomposition.domain.entities.Level
 import com.five9th.numbercomposition.domain.entities.Question
 import com.five9th.numbercomposition.presentation.viewmodels.InGameViewmodel
 import com.five9th.numbercomposition.presentation.viewmodels.InGameViewmodelFactory
@@ -132,25 +129,5 @@ class InGameFragment : BaseFragment<FragmentInGameBinding>(
         findNavController().navigate(
             InGameFragmentDirections.actionInGameFragmentToGameResultFragment(gameResult)
         )
-    }
-
-    companion object {
-        const val NAME = "InGameFragment"
-
-        private const val OPTIONS_COUNT = 6
-
-        private const val KEY_LEVEL = "level"
-
-        fun bundleForNewInstance(level: Level): Bundle {
-            return Bundle().apply {
-                putParcelable(KEY_LEVEL, level)
-            }
-        }
-
-        fun newInstance(level: Level): InGameFragment {
-            return InGameFragment().apply {
-                arguments = bundleForNewInstance(level)
-            }
-        }
     }
 }

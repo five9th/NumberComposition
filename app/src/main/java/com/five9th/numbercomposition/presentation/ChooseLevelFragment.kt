@@ -34,10 +34,4 @@ class ChooseLevelFragment : BaseFragment<FragmentChooseLevelBinding>(
             ChooseLevelFragmentDirections.actionChooseLevelFragmentToInGameFragment(level)
         )
     }
-
-    companion object {
-        fun newInstance(): ChooseLevelFragment {
-            return ChooseLevelFragment()
-        }
-    }
 }

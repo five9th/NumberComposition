@@ -1,17 +1,12 @@
 package com.five9th.numbercomposition.presentation
 
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.five9th.numbercomposition.R
 import com.five9th.numbercomposition.databinding.FragmentGameResultBinding
-import com.five9th.numbercomposition.domain.entities.GameResult
 
 
 class GameResultFragment : BaseFragment<FragmentGameResultBinding>(
@@ -89,22 +84,5 @@ class GameResultFragment : BaseFragment<FragmentGameResultBinding>(
 
     private fun retryGame() {
         findNavController().popBackStack()
-    }
-
-    companion object {
-
-        private const val KEY_GAME_RESULT = "game_result"
-
-        fun bundleForNewInstance(gameResult: GameResult): Bundle {
-            return Bundle().apply {
-                putParcelable(KEY_GAME_RESULT, gameResult)
-            }
-        }
-
-        @JvmStatic
-        fun newInstance(gameResult: GameResult) =
-            GameResultFragment().apply {
-                arguments = bundleForNewInstance(gameResult)
-            }
     }
 }
