@@ -18,12 +18,5 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .add(R.id.main_fragment_container, IntroductionFragment(), "tag")
-//                .replace(R.id.main_fragment_container, IntroductionFragment::class.java, null)
-                .commit()
-        }
     }
 }
