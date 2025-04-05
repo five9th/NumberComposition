@@ -7,6 +7,7 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
+import androidx.navigation.fragment.findNavController
 import com.five9th.numbercomposition.R
 import com.five9th.numbercomposition.databinding.FragmentGameResultBinding
 import com.five9th.numbercomposition.domain.entities.GameResult
@@ -37,7 +38,6 @@ class GameResultFragment : BaseFragment<FragmentGameResultBinding>(
         parseGameResult()
 
         setListeners()
-        setBackPressedCallback()
     }
 
     private fun parseGameResult() {
@@ -100,20 +100,8 @@ class GameResultFragment : BaseFragment<FragmentGameResultBinding>(
         }
     }
 
-    private fun setBackPressedCallback() {
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                retryGame()
-            }
-        }
-
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-    }
-
     private fun retryGame() {
-        requireActivity().supportFragmentManager.popBackStack(
-            InGameFragment.NAME,
-            FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        findNavController().popBackStack()
     }
 
     companion object {

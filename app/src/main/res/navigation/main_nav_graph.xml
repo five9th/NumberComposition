@@ -30,7 +30,9 @@
         tools:layout="@layout/fragment_in_game" >
         <action
             android:id="@+id/action_inGameFragment_to_gameResultFragment"
-            app:destination="@id/gameResultFragment" />
+            app:destination="@id/gameResultFragment"
+            app:popUpTo="@id/inGameFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/gameResultFragment"
