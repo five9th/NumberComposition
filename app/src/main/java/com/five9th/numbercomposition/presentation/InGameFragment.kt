@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.five9th.numbercomposition.R
 import com.five9th.numbercomposition.databinding.FragmentInGameBinding
 import com.five9th.numbercomposition.domain.entities.GameResult
@@ -141,10 +142,8 @@ class InGameFragment : BaseFragment<FragmentInGameBinding>(
     }
 
     private fun launchGameResultFragment(gameResult: GameResult) {
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.main_fragment_container, GameResultFragment.newInstance(gameResult))
-            .addToBackStack(null)
-            .commit()
+        val bundle = GameResultFragment.bundleForNewInstance(gameResult)
+        findNavController().navigate(R.id.action_inGameFragment_to_gameResultFragment, bundle)
     }
 
     companion object {
@@ -154,11 +153,15 @@ class InGameFragment : BaseFragment<FragmentInGameBinding>(
 
         private const val KEY_LEVEL = "level"
 
+        fun bundleForNewInstance(level: Level): Bundle {
+            return Bundle().apply {
+                putParcelable(KEY_LEVEL, level)
+            }
+        }
+
         fun newInstance(level: Level): InGameFragment {
             return InGameFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(KEY_LEVEL, level)
-                }
+                arguments = bundleForNewInstance(level)
             }
         }
     }

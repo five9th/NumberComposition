@@ -120,12 +120,16 @@ class GameResultFragment : BaseFragment<FragmentGameResultBinding>(
 
         private const val KEY_GAME_RESULT = "game_result"
 
+        fun bundleForNewInstance(gameResult: GameResult): Bundle {
+            return Bundle().apply {
+                putParcelable(KEY_GAME_RESULT, gameResult)
+            }
+        }
+
         @JvmStatic
         fun newInstance(gameResult: GameResult) =
             GameResultFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(KEY_GAME_RESULT, gameResult)
-                }
+                arguments = bundleForNewInstance(gameResult)
             }
     }
 }
