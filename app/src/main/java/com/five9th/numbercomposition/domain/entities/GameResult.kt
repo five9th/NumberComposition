@@ -13,4 +13,10 @@ data class GameResult(
 {
     val rightAnswerPercent: Int
         get() = (rightAnswers * 100.0 / totalAnswers).toInt()
+
+    val rightAnswerPercentStr: String  // temp
+        get() = rightAnswerPercent.toString()
+
+    val rightAnswersStr: String  // temp
+        get() = rightAnswers.toString()
 }

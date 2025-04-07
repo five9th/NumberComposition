@@ -33,39 +33,40 @@ class GameResultFragment : BaseFragment<FragmentGameResultBinding>(
     }
 
     private fun setText() {
-        val requiredCount = args.gameResult.gameSettings.minRightAnswersCount
-        val rightCount = args.gameResult.rightAnswers
-        val rightCountColor = getColor(rightCount >= requiredCount)
-
-        val requiredPercent = args.gameResult.gameSettings.minRightPercent
-        val rightPercent = args.gameResult.rightAnswerPercent
-        val rightPercentColor = getColor(rightPercent >= requiredPercent)
-
-        binding.tvScoreAnswers.also {
-            it.text = String.format(
-                resources.getString(R.string.score_answers),
-                rightCount.toString()
-            )
-            it.setTextColor(rightCountColor)
-        }
-
-        binding.tvRequiredAnswers.text = String.format(
-            resources.getString(R.string.required_score),
-            requiredCount.toString()
-        )
-
-        binding.tvScorePercentage.also {
-            it.text = String.format(
-                resources.getString(R.string.score_percentage),
-                rightPercent.toString()
-            )
-            it.setTextColor(rightPercentColor)
-        }
-
-        binding.tvRequiredPercentage.text = String.format(
-            resources.getString(R.string.required_percentage),
-            requiredPercent.toString()
-        )
+        binding.gameResult = args.gameResult
+//        val requiredCount = args.gameResult.gameSettings.minRightAnswersCount
+//        val rightCount = args.gameResult.rightAnswers
+//        val rightCountColor = getColor(rightCount >= requiredCount)
+//
+//        val requiredPercent = args.gameResult.gameSettings.minRightPercent
+//        val rightPercent = args.gameResult.rightAnswerPercent
+//        val rightPercentColor = getColor(rightPercent >= requiredPercent)
+//
+//        binding.tvScoreAnswers.also {
+//            it.text = String.format(
+//                resources.getString(R.string.score_answers),
+//                rightCount.toString()
+//            )
+//            it.setTextColor(rightCountColor)
+//        }
+//
+//        binding.tvRequiredAnswers.text = String.format(
+//            resources.getString(R.string.required_score),
+//            requiredCount.toString()
+//        )
+//
+//        binding.tvScorePercentage.also {
+//            it.text = String.format(
+//                resources.getString(R.string.score_percentage),
+//                rightPercent.toString()
+//            )
+//            it.setTextColor(rightPercentColor)
+//        }
+//
+//        binding.tvRequiredPercentage.text = String.format(
+//            resources.getString(R.string.required_percentage),
+//            requiredPercent.toString()
+//        )
     }
 
     private fun getColor(isSuccess: Boolean): Int {
