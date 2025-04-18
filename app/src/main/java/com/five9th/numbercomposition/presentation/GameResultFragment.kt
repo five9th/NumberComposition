@@ -1,35 +1,16 @@
 package com.five9th.numbercomposition.presentation
 
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.activity.OnBackPressedCallback
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentManager
-import com.five9th.numbercomposition.R
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.five9th.numbercomposition.databinding.FragmentGameResultBinding
-import com.five9th.numbercomposition.domain.entities.GameResult
 
 
 class GameResultFragment : BaseFragment<FragmentGameResultBinding>(
     FragmentGameResultBinding::inflate
 ) {
-    private lateinit var gameResult: GameResult
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        parseArgs()
-        Log.d("GameResultFragment", "onCreate, gameResult: $gameResult")
-    }
-
-    private fun parseArgs() {
-        gameResult = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.TIRAMISU) {
-            requireArguments().getParcelable(KEY_GAME_RESULT, GameResult::class.java)
-        } else {
-            requireArguments().getParcelable(KEY_GAME_RESULT) as? GameResult
-        } ?: throw RuntimeException("GameResult is null")
-    }
+    private val args by navArgs<GameResultFragmentArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,61 +18,10 @@ class GameResultFragment : BaseFragment<FragmentGameResultBinding>(
         parseGameResult()
 
         setListeners()
-        setBackPressedCallback()
     }
 
     private fun parseGameResult() {
-        setImage()
-        setText()
-    }
-
-    private fun setImage() {
-        val imgId = if (gameResult.isWinner) R.drawable.happy_emoji else R.drawable.sad_emoji
-        binding.emojiResult.setImageResource(imgId)
-    }
-
-    private fun setText() {
-        val requiredCount = gameResult.gameSettings.minRightAnswersCount
-        val rightCount = gameResult.rightAnswers
-        val rightCountColor = getColor(rightCount >= requiredCount)
-
-        val requiredPercent = gameResult.gameSettings.minRightPercent
-        val rightPercent = gameResult.rightAnswerPercent
-        val rightPercentColor = getColor(rightPercent >= requiredPercent)
-
-        binding.tvScoreAnswers.also {
-            it.text = String.format(
-                resources.getString(R.string.score_answers),
-                rightCount.toString()
-            )
-            it.setTextColor(rightCountColor)
-        }
-
-        binding.tvRequiredAnswers.text = String.format(
-            resources.getString(R.string.required_score),
-            requiredCount.toString()
-        )
-
-        binding.tvScorePercentage.also {
-            it.text = String.format(
-                resources.getString(R.string.score_percentage),
-                rightPercent.toString()
-            )
-            it.setTextColor(rightPercentColor)
-        }
-
-        binding.tvRequiredPercentage.text = String.format(
-            resources.getString(R.string.required_percentage),
-            requiredPercent.toString()
-        )
-    }
-
-    private fun getColor(isSuccess: Boolean): Int {
-        return if (isSuccess) {
-            ContextCompat.getColor(requireContext(), R.color.green)
-        } else {
-            ContextCompat.getColor(requireContext(), R.color.red)
-        }
+        binding.gameResult = args.gameResult
     }
 
     private fun setListeners() {
@@ -100,32 +30,7 @@ class GameResultFragment : BaseFragment<FragmentGameResultBinding>(
         }
     }
 
-    private fun setBackPressedCallback() {
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                retryGame()
-            }
-        }
-
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-    }
-
     private fun retryGame() {
-        requireActivity().supportFragmentManager.popBackStack(
-            InGameFragment.NAME,
-            FragmentManager.POP_BACK_STACK_INCLUSIVE)
-    }
-
-    companion object {
-
-        private const val KEY_GAME_RESULT = "game_result"
-
-        @JvmStatic
-        fun newInstance(gameResult: GameResult) =
-            GameResultFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(KEY_GAME_RESULT, gameResult)
-                }
-            }
+        findNavController().popBackStack()
     }
 }

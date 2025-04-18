@@ -2,9 +2,9 @@ package com.five9th.numbercomposition.presentation.viewmodels
 
 import android.app.Application
 import android.os.CountDownTimer
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.five9th.numbercomposition.R
 import com.five9th.numbercomposition.data.GameRepositoryImpl
 import com.five9th.numbercomposition.domain.entities.GameResult
@@ -15,15 +15,12 @@ import com.five9th.numbercomposition.domain.usecases.GenerateQuestionUseCase
 import com.five9th.numbercomposition.domain.usecases.GetGameSettingsUseCase
 import java.util.Locale
 
-class InGameViewmodel(application: Application) : AndroidViewModel(application) {
-
-    private val context = application
+class InGameViewmodel(
+    private val application: Application,
+    private val level: Level
+) : ViewModel() {
 
     private val repository = GameRepositoryImpl // Temporary solution
-
-    private var _level: Level? = null
-    private val level: Level
-        get() = _level ?: throw Exception("Game is not started")
 
     private var _gameSettings: GameSettings? = null
     private val gameSettings: GameSettings
@@ -76,16 +73,20 @@ class InGameViewmodel(application: Application) : AndroidViewModel(application) 
         get() = _gameResultLD
 
 
-    fun startGame(level: Level) {
-        getGameSettings(level)
+    init {
+        startGame()
+    }
+
+
+    private fun startGame() {
+        getGameSettings()
 
         updateAndSetNewQuestion()
 
         startTimer()
     }
 
-    private fun getGameSettings(level: Level) {
-        _level = level
+    private fun getGameSettings() {
         _gameSettings = getGameSettingsUseCase(level)
     }
 
@@ -100,7 +101,7 @@ class InGameViewmodel(application: Application) : AndroidViewModel(application) 
         val minRightAnswersCount = gameSettings.minRightAnswersCount
 
         _rightAnswersStrLD.value = String.format(
-            context.resources.getString(R.string.progress_answers),
+            application.resources.getString(R.string.progress_answers),
             answersRight.toString(),
             minRightAnswersCount.toString()
         )

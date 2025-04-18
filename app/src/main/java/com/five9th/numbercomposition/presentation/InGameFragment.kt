@@ -1,59 +1,41 @@
 package com.five9th.numbercomposition.presentation
 
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import com.five9th.numbercomposition.R
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.five9th.numbercomposition.databinding.FragmentInGameBinding
 import com.five9th.numbercomposition.domain.entities.GameResult
-import com.five9th.numbercomposition.domain.entities.Level
 import com.five9th.numbercomposition.domain.entities.Question
 import com.five9th.numbercomposition.presentation.viewmodels.InGameViewmodel
+import com.five9th.numbercomposition.presentation.viewmodels.InGameViewmodelFactory
 import java.util.Locale
 
 class InGameFragment : BaseFragment<FragmentInGameBinding>(
     FragmentInGameBinding::inflate
 ) {
-    private val tag = "InGameFragment"
+    private val args by navArgs<InGameFragmentArgs>()
 
-    private lateinit var level: Level
+    private val viewModelFactory by lazy {
+        InGameViewmodelFactory(requireActivity().application, args.level)
+    }
 
     private val viewModel by lazy {
-        ViewModelProvider(
-            this,
-            ViewModelProvider.AndroidViewModelFactory.getInstance(
-                requireActivity().application
-            )
-        )[InGameViewmodel::class.java]
+        ViewModelProvider(this, viewModelFactory)[InGameViewmodel::class.java]
     }
 
     private lateinit var optionButtons: Array<TextView>
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        parseArgs()
-    }
-
-    private fun parseArgs() {
-        level = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.TIRAMISU) {
-            requireArguments().getParcelable(KEY_LEVEL, Level::class.java)
-        } else {
-            requireArguments().getParcelable(KEY_LEVEL) as Level?
-        } ?: throw RuntimeException("Level is null")
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initOptionButtonsArr()
+        bindData()
         subscribeToLDs()
         setListeners()
-
-        viewModel.startGame(level)
     }
 
     private fun initOptionButtonsArr() {
@@ -67,44 +49,14 @@ class InGameFragment : BaseFragment<FragmentInGameBinding>(
             )
     }
 
-    private fun subscribeToLDs() {
-        viewModel.gameTimerLD.observe(viewLifecycleOwner) { timeStr ->
-            binding.tvTimer.text = timeStr
-        }
-
-        viewModel.rightAnswersStrLD.observe(viewLifecycleOwner) { value ->
-            binding.tvAnswersProgress.text = value
-        }
-
-        viewModel.requiredPercentLD.observe(viewLifecycleOwner) { percent ->
-            binding.pbRightPercent.secondaryProgress = percent
-        }
-
-        viewModel.rightAnswersPercentLD.observe(viewLifecycleOwner) { percent ->
-            binding.pbRightPercent.setProgress(percent, true)
-        }
-
-        viewModel.isPercentEnoughLD.observe(viewLifecycleOwner) { value ->
-            val color = getColor(value)
-            binding.pbRightPercent.progressDrawable.setTint(color)
-        }
-
-        viewModel.isCountEnoughLD.observe(viewLifecycleOwner) { value ->
-            val color = getColor(value)
-            binding.tvAnswersProgress.setTextColor(color)
-        }
-
-        viewModel.questionLD.observe(viewLifecycleOwner, ::parseQuestion)
-
-        viewModel.gameResultLD.observe(viewLifecycleOwner, ::launchGameResultFragment)
+    private fun bindData() {
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
     }
 
-    private fun getColor(isSuccess: Boolean): Int {
-        return if (isSuccess) {
-            ContextCompat.getColor(requireContext(), R.color.green)
-        } else {
-            ContextCompat.getColor(requireContext(), R.color.red)
-        }
+    private fun subscribeToLDs() {
+        viewModel.questionLD.observe(viewLifecycleOwner, ::parseQuestion)
+        viewModel.gameResultLD.observe(viewLifecycleOwner, ::launchGameResultFragment)
     }
 
     private fun parseQuestion(question: Question) {
@@ -143,25 +95,8 @@ class InGameFragment : BaseFragment<FragmentInGameBinding>(
     }
 
     private fun launchGameResultFragment(gameResult: GameResult) {
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.main_fragment_container, GameResultFragment.newInstance(gameResult))
-            .addToBackStack(null)
-            .commit()
-    }
-
-    companion object {
-        const val NAME = "InGameFragment"
-
-        private const val OPTIONS_COUNT = 6
-
-        private const val KEY_LEVEL = "level"
-
-        fun newInstance(level: Level): InGameFragment {
-            return InGameFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(KEY_LEVEL, level)
-                }
-            }
-        }
+        findNavController().navigate(
+            InGameFragmentDirections.actionInGameFragmentToGameResultFragment(gameResult)
+        )
     }
 }
