@@ -3,11 +3,9 @@ package com.five9th.numbercomposition.presentation
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.five9th.numbercomposition.R
 import com.five9th.numbercomposition.databinding.FragmentInGameBinding
 import com.five9th.numbercomposition.domain.entities.GameResult
 import com.five9th.numbercomposition.domain.entities.Question
@@ -35,6 +33,7 @@ class InGameFragment : BaseFragment<FragmentInGameBinding>(
         super.onViewCreated(view, savedInstanceState)
 
         initOptionButtonsArr()
+        bindData()
         subscribeToLDs()
         setListeners()
     }
@@ -50,44 +49,14 @@ class InGameFragment : BaseFragment<FragmentInGameBinding>(
             )
     }
 
-    private fun subscribeToLDs() {
-        viewModel.gameTimerLD.observe(viewLifecycleOwner) { timeStr ->
-            binding.tvTimer.text = timeStr
-        }
-
-        viewModel.rightAnswersStrLD.observe(viewLifecycleOwner) { value ->
-            binding.tvAnswersProgress.text = value
-        }
-
-        viewModel.requiredPercentLD.observe(viewLifecycleOwner) { percent ->
-            binding.pbRightPercent.secondaryProgress = percent
-        }
-
-        viewModel.rightAnswersPercentLD.observe(viewLifecycleOwner) { percent ->
-            binding.pbRightPercent.setProgress(percent, true)
-        }
-
-        viewModel.isPercentEnoughLD.observe(viewLifecycleOwner) { value ->
-            val color = getColor(value)
-            binding.pbRightPercent.progressDrawable.setTint(color)
-        }
-
-        viewModel.isCountEnoughLD.observe(viewLifecycleOwner) { value ->
-            val color = getColor(value)
-            binding.tvAnswersProgress.setTextColor(color)
-        }
-
-        viewModel.questionLD.observe(viewLifecycleOwner, ::parseQuestion)
-
-        viewModel.gameResultLD.observe(viewLifecycleOwner, ::launchGameResultFragment)
+    private fun bindData() {
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
     }
 
-    private fun getColor(isSuccess: Boolean): Int {
-        return if (isSuccess) {
-            ContextCompat.getColor(requireContext(), R.color.green)
-        } else {
-            ContextCompat.getColor(requireContext(), R.color.red)
-        }
+    private fun subscribeToLDs() {
+        viewModel.questionLD.observe(viewLifecycleOwner, ::parseQuestion)
+        viewModel.gameResultLD.observe(viewLifecycleOwner, ::launchGameResultFragment)
     }
 
     private fun parseQuestion(question: Question) {

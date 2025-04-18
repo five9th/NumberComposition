@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.five9th.numbercomposition.presentation.viewmodels.InGameViewmodel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -15,6 +21,7 @@
             android:layout_margin="8dp"
             android:textColor="#673AB7"
             android:textSize="24sp"
+            android:text="@{viewModel.gameTimerLD}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -153,11 +160,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="@string/progress_answers"
+
+            android:text="@{viewModel.rightAnswersStrLD}"
+            app:isCountEnough="@{viewModel.isCountEnoughLD}"
 
             app:layout_constraintBottom_toTopOf="@id/pb_right_percent"
             app:layout_constraintTop_toBottomOf="@id/tv_left_number"
-            app:layout_constraintVertical_chainStyle="spread" />
+            app:layout_constraintVertical_chainStyle="spread"
+
+            tools:text="@string/progress_answers"/>
 
         <ProgressBar
             android:id="@+id/pb_right_percent"
@@ -166,11 +177,16 @@
             android:layout_height="wrap_content"
             android:max="100"
             android:secondaryProgressTint="@android:color/background_dark"
+
             app:layout_constraintBottom_toTopOf="@+id/tv_option_2"
             app:layout_constraintEnd_toEndOf="parent"
-
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_answers_progress"
+
+            android:secondaryProgress="@{viewModel.requiredPercentLD}"
+            app:progressWithAnim="@{viewModel.rightAnswersPercentLD}"
+            app:isPercentEnough="@{viewModel.isPercentEnoughLD}"
+
             tools:progress="25"
             tools:secondaryProgress="80" />
 

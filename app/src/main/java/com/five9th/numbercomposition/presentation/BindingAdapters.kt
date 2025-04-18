@@ -2,11 +2,13 @@ package com.five9th.numbercomposition.presentation
 
 import android.content.Context
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.five9th.numbercomposition.R
 import com.five9th.numbercomposition.domain.entities.GameResult
 
+// ====== GameResultFragment ====== //
 @BindingAdapter("requiredAnswers")
 fun bindRequiredAnswers(textView: TextView, count: Int) {
     textView.text = String.format(
@@ -60,6 +62,28 @@ fun bindEmojiResult(imageView: ImageView, isWinner: Boolean) {
     val imgId = if (isWinner) R.drawable.happy_emoji else R.drawable.sad_emoji
     imageView.setImageResource(imgId)
 }
+
+
+// ====== InGameFragment ====== //
+@BindingAdapter("progressWithAnim")
+fun bindProgressWithAnim(progressBar: ProgressBar, progress: Int) {
+    progressBar.setProgress(progress, true)
+}
+
+@BindingAdapter("isPercentEnough")
+fun bindIsPercentEnough(progressBar: ProgressBar, isEnough: Boolean) {
+    progressBar.progressDrawable.setTint(
+        getResultColor(progressBar.context, isEnough)
+    )
+}
+
+@BindingAdapter("isCountEnough")
+fun bindIsCountEnough(textView: TextView, isEnough: Boolean) {
+    textView.setTextColor(
+        getResultColor(textView.context, isEnough)
+    )
+}
+
 
 private fun getResultColor(context: Context, isSuccess: Boolean): Int {
     return if (isSuccess) {
