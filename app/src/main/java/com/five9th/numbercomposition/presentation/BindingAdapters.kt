@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.five9th.numbercomposition.R
 import com.five9th.numbercomposition.domain.entities.GameResult
+import java.util.Locale
 
 // ====== GameResultFragment ====== //
 @BindingAdapter("requiredAnswers")
@@ -84,6 +85,11 @@ fun bindIsCountEnough(textView: TextView, isEnough: Boolean) {
     )
 }
 
+@BindingAdapter("intAsText")
+fun bindIntAsText(textView: TextView, value: Int) {
+    textView.text = intToText(value)
+}
+
 
 private fun getResultColor(context: Context, isSuccess: Boolean): Int {
     return if (isSuccess) {
@@ -91,4 +97,8 @@ private fun getResultColor(context: Context, isSuccess: Boolean): Int {
     } else {
         context.getColor(R.color.red)
     }
+}
+
+private fun intToText(value: Int): String {
+    return String.format(Locale.getDefault(), "%d", value)
 }

@@ -55,26 +55,7 @@ class InGameFragment : BaseFragment<FragmentInGameBinding>(
     }
 
     private fun subscribeToLDs() {
-        viewModel.questionLD.observe(viewLifecycleOwner, ::parseQuestion)
         viewModel.gameResultLD.observe(viewLifecycleOwner, ::launchGameResultFragment)
-    }
-
-    private fun parseQuestion(question: Question) {
-        binding.tvSum.text = intToText(question.sum)
-
-        binding.tvLeftNumber.text = intToText(question.firstValue)
-
-        setOptionButtons(question.secondValueOptions)
-    }
-
-    private fun intToText(value: Int): String {
-        return String.format(Locale.getDefault(), "%d", value)
-    }
-
-    private fun setOptionButtons(options: List<Int>) {
-        for (i in optionButtons.indices) {
-            optionButtons[i].text = intToText(options[i])
-        }
     }
 
     private fun setListeners() {

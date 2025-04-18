@@ -27,6 +27,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="00:00" />
 
+        <!-- TODO: try this instead: android:text="@{viewModel.questionLD.sum}"-->
         <TextView
             android:id="@+id/tv_sum"
             style="@style/QuestionTextStyle"
@@ -36,6 +37,7 @@
             android:background="@drawable/circle_background"
             android:backgroundTint="@android:color/holo_purple"
 
+            app:intAsText="@{viewModel.questionLD.sum}"
             app:layout_constraintBottom_toTopOf="@id/tv_left_number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
@@ -51,6 +53,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@android:color/holo_green_dark"
+
+            app:intAsText="@{viewModel.questionLD.firstValue}"
 
             app:layout_constraintBottom_toTopOf="@id/tv_option_1"
             app:layout_constraintDimensionRatio="1:1"
@@ -82,6 +86,8 @@
             android:layout_height="wrap_content"
             android:background="@android:color/holo_green_light"
 
+            app:intAsText="@{viewModel.questionLD.secondValueOptions[0]}"
+
             app:layout_constraintBottom_toTopOf="@id/tv_option_4"
             app:layout_constraintEnd_toStartOf="@id/tv_option_5"
             app:layout_constraintHorizontal_chainStyle="spread"
@@ -96,6 +102,8 @@
             android:layout_height="wrap_content"
             android:background="@android:color/holo_orange_light"
 
+            app:intAsText="@{viewModel.questionLD.secondValueOptions[1]}"
+
             app:layout_constraintBottom_toTopOf="@id/tv_option_4"
             app:layout_constraintEnd_toStartOf="@id/tv_option_6"
             app:layout_constraintStart_toEndOf="@id/tv_option_4"
@@ -109,6 +117,8 @@
             android:layout_height="wrap_content"
             android:background="@android:color/holo_purple"
 
+            app:intAsText="@{viewModel.questionLD.secondValueOptions[2]}"
+
             app:layout_constraintBottom_toTopOf="@id/tv_option_4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_option_5"
@@ -121,6 +131,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@android:color/holo_blue_light"
+
+            app:intAsText="@{viewModel.questionLD.secondValueOptions[3]}"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tv_option_5"
@@ -136,6 +148,8 @@
             android:layout_height="wrap_content"
             android:background="@android:color/holo_red_light"
 
+            app:intAsText="@{viewModel.questionLD.secondValueOptions[4]}"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tv_option_6"
             app:layout_constraintStart_toEndOf="@id/tv_option_4"
@@ -148,6 +162,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@android:color/holo_blue_bright"
+
+            app:intAsText="@{viewModel.questionLD.secondValueOptions[5]}"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
